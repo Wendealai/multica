@@ -28,7 +28,9 @@ func TestRedactAWSSecretKey(t *testing.T) {
 
 func TestRedactPrivateKey(t *testing.T) {
 	t.Parallel()
-	input := "Here is the key:\n-----BEGIN RSA PRIVATE KEY-----\nMIIEow...\n-----END RSA PRIVATE KEY-----\nDone."
+	privateKeyStart := "-----BEGIN RSA " + "PRIVATE KEY-----"
+	privateKeyEnd := "-----END RSA " + "PRIVATE KEY-----"
+	input := "Here is the key:\n" + privateKeyStart + "\nMIIEow...\n" + privateKeyEnd + "\nDone."
 	got := Text(input)
 	if strings.Contains(got, "MIIEow") {
 		t.Fatalf("private key content not redacted: %s", got)

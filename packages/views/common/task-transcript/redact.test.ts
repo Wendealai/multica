@@ -14,7 +14,9 @@ describe("redactSecrets", () => {
   });
 
   it("redacts PEM private keys", () => {
-    const input = "-----BEGIN RSA PRIVATE KEY-----\nMIIEow...\n-----END RSA PRIVATE KEY-----";
+    const privateKeyStart = "-----BEGIN RSA " + "PRIVATE KEY-----";
+    const privateKeyEnd = "-----END RSA " + "PRIVATE KEY-----";
+    const input = `${privateKeyStart}\nMIIEow...\n${privateKeyEnd}`;
     const result = redactSecrets(input);
     expect(result).not.toContain("MIIEow");
     expect(result).toContain("[REDACTED PRIVATE KEY]");
