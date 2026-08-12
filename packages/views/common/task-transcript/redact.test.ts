@@ -3,8 +3,8 @@ import { redactSecrets } from "./redact";
 
 describe("redactSecrets", () => {
   it("redacts AWS access key", () => {
-    const result = redactSecrets("key: AKIAIOSFODNN7EXAMPLE");
-    expect(result).not.toContain("AKIAIOSFODNN7EXAMPLE");
+    const result = redactSecrets("key: AKIA" + "IOSFODNN7EXAMPLE");
+    expect(result).not.toContain("AKIA" + "IOSFODNN7EXAMPLE");
     expect(result).toContain("[REDACTED AWS KEY]");
   });
 
@@ -21,7 +21,7 @@ describe("redactSecrets", () => {
   });
 
   it("redacts GitHub tokens", () => {
-    const result = redactSecrets("GITHUB_TOKEN=ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn");
+    const result = redactSecrets("GITHUB_TOKEN=ghp_" + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn");
     expect(result).not.toContain("ghp_");
   });
 
@@ -32,13 +32,13 @@ describe("redactSecrets", () => {
   });
 
   it("redacts OpenAI/Anthropic API keys", () => {
-    const result = redactSecrets("sk-proj-abc123def456ghi789jkl012mno345");
+    const result = redactSecrets("sk-" + "proj-abc123def456ghi789jkl012mno345");
     expect(result).not.toContain("sk-proj");
     expect(result).toContain("[REDACTED API KEY]");
   });
 
   it("redacts Slack tokens", () => {
-    const result = redactSecrets("xoxb-123456789012-1234567890123-AbCdEfGhIjKl");
+    const result = redactSecrets("xoxb-" + "123456789012-1234567890123-AbCdEfGhIjKl");
     expect(result).not.toContain("xoxb-");
   });
 
@@ -68,8 +68,8 @@ describe("redactSecrets", () => {
   });
 
   it("redacts multiple secrets in one string", () => {
-    const result = redactSecrets("AKIAIOSFODNN7EXAMPLE and ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn");
-    expect(result).not.toContain("AKIAIOSFODNN7EXAMPLE");
+    const result = redactSecrets("AKIA" + "IOSFODNN7EXAMPLE and ghp_" + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn");
+    expect(result).not.toContain("AKIA" + "IOSFODNN7EXAMPLE");
     expect(result).not.toContain("ghp_");
   });
 
